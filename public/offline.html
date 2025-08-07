@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>You're Offline</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .offline-container {
+        text-align: center;
+        max-width: 500px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .offline-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.8;
+      }
+
+      .offline-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #fff;
+      }
+
+      .offline-message {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        opacity: 0.9;
+      }
+
+      .retry-btn {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 1rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 10px;
+      }
+
+      .retry-btn:hover {
+        background: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .home-btn {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+        padding: 12px 30px;
+        font-size: 1rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 10px;
+      }
+
+      .home-btn:hover {
+        background: white;
+        color: #667eea;
+        transform: translateY(-2px);
+      }
+
+      .status-indicator {
+        margin-top: 30px;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+      }
+
+      .status-offline {
+        background: rgba(244, 67, 54, 0.2);
+        border: 1px solid rgba(244, 67, 54, 0.3);
+      }
+
+      .status-online {
+        background: rgba(76, 175, 80, 0.2);
+        border: 1px solid rgba(76, 175, 80, 0.3);
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="offline-container">
+      <div class="offline-icon">📡</div>
+      <h1 class="offline-title">You're Offline</h1>
+      <p class="offline-message">
+        It looks like you've lost your internet connection. Don't worry, some
+        content might still be available from your cache.
+      </p>
+
+      <div>
+        <button class="retry-btn" onclick="retryConnection()">
+          🔄 Try Again
+        </button>
+        <button class="home-btn" onclick="goHome()">🏠 Go Home</button>
+      </div>
+
+      <div id="status" class="status-indicator status-offline">
+        <span class="pulse">🔴</span> You are currently offline
+      </div>
+    </div>
+
+    <script>
+      // Check online status
+      function updateStatus() {
+        const status = document.getElementById("status");
+        if (navigator.onLine) {
+          status.className = "status-indicator status-online";
+          status.innerHTML = "<span>🟢</span> You are back online!";
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          status.className = "status-indicator status-offline";
+          status.innerHTML =
+            '<span class="pulse">🔴</span> You are currently offline';
+        }
+      }
+
+      // Retry connection
+      function retryConnection() {
+        if (navigator.onLine) {
+          window.location.reload();
+        } else {
+          // Try to reload anyway - maybe connection is back
+          window.location.reload();
+        }
+      }
+
+      // Go to home page
+      function goHome() {
+        window.location.href = "/";
+      }
+
+      // Listen for online/offline events
+      window.addEventListener("online", updateStatus);
+      window.addEventListener("offline", updateStatus);
+
+      // Check status on load
+      updateStatus();
+
+      // Periodically check connection
+      setInterval(updateStatus, 5000);
+    </script>
+  </body>
+</html>
