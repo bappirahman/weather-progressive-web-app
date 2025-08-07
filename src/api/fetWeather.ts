@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const URL: string = process.env.API_URL || "";
-const API_KEY: string = process.env.API_KEY || "";
+const URL: string = import.meta.env.VITE_API_URL || "";
+const API_KEY: string = import.meta.env.VITE_API_KEY || "";
 const fetchWeater = async (query: string) => {
   const response = await axios.get(URL, {
     params: {

@@ -68,8 +68,8 @@ A modern **Progressive Web App (PWA)** for weather information built with React,
    Create a `.env` file in the root directory:
 
    ```env
-   API_URL=https://api.openweathermap.org/data/2.5/weather
-   API_KEY=your_openweathermap_api_key
+   VITE_API_URL=https://api.openweathermap.org/data/2.5/weather
+   VITE_API_KEY=your_openweathermap_api_key
    ```
 
 4. **Start the development server**

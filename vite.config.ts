@@ -4,7 +4,46 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), VitePWA()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: "autoUpdate",
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,json}"],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/api\.openweathermap\.org\/.*/i,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "weather-api-cache",
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24, // 24 hours
+              },
+            },
+          },
+        ],
+      },
+      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      manifest: {
+        name: "Weather Progressive Web App",
+        short_name: "Weather PWA",
+        description: "A modern weather app with offline support",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        display: "standalone",
+        scope: "/",
+        start_url: "/",
+        icons: [
+          {
+            src: "images/logo.svg",
+            sizes: "192x192 512x512",
+            type: "image/svg+xml",
+          },
+        ],
+      },
+    }),
+  ],
   server: {
     hmr: {
       port: 5173,
@@ -12,10 +51,5 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
-    rollupOptions: {
-      input: {
-        sw: "public/sw.ts",
-      },
-    },
   },
 });
