@@ -24,7 +24,7 @@ export default defineConfig({
           },
         ],
       },
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+      includeAssets: ["favicon.ico", "images/logo.svg"],
       manifest: {
         name: "Weather Progressive Web App",
         short_name: "Weather PWA",
@@ -37,8 +37,21 @@ export default defineConfig({
         icons: [
           {
             src: "images/logo.svg",
-            sizes: "192x192 512x512",
+            sizes: "any",
             type: "image/svg+xml",
+            purpose: "any",
+          },
+          {
+            src: "images/logo.svg",
+            sizes: "192x192",
+            type: "image/svg+xml",
+            purpose: "any maskable",
+          },
+          {
+            src: "images/logo.svg",
+            sizes: "512x512",
+            type: "image/svg+xml",
+            purpose: "any maskable",
           },
         ],
       },
